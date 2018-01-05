@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.booksystem.mybatis.mapper.BookUserMapper">
+  <resultMap id="BookUserMap" type="com.booksystem.mybatis.entities.BookUser">
+    <result column="lendtime" jdbcType="DATE" property="lendtime" />
+    <result column="returntime" jdbcType="DATE" property="returntime" />
+    <result column="ifreturn" jdbcType="INTEGER" property="ifreturn" />
+    <result column="renewtimes" jdbcType="INTEGER" property="renewtimes" />
+    <association property="book" column="book_Id" select="com.booksystem.mybatis.mapper.BookMapper.selectByPrimaryKey" />
+    <association property="user" column="user_Id" select="com.booksystem.mybatis.mapper.UserMapper.selectByPrimaryKey" />
+  </resultMap>
+  
+  <select id="getRecord" parameterType="java.lang.String" resultMap="BookUserMap">
+  	select * from book_user
+  	where user_id=#{userId}
+  	order by ifreturn
+  	DESC
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from book_user
+    where book_id = #{bookId,jdbcType=VARCHAR}
+      and user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.booksystem.mybatis.entities.BookUser">
+    insert into book_user (book_id, user_id, lendtime, 
+      returntime, ifreturn, renewtimes
+      )
+    values (#{bookId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{lendtime,jdbcType=DATE}, 
+      #{returntime,jdbcType=DATE}, #{ifreturn,jdbcType=INTEGER}, #{renewtimes,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.booksystem.mybatis.entities.BookUser">
+    update book_user
+    set lendtime = #{lendtime,jdbcType=DATE},
+      returntime = #{returntime,jdbcType=DATE},
+      ifreturn = #{ifreturn,jdbcType=INTEGER},
+      renewtimes = #{renewtimes,jdbcType=INTEGER}
+    where book_id = #{bookId,jdbcType=VARCHAR}
+      and user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BookUserMap">
+    select book_id, user_id, lendtime, returntime, ifreturn, renewtimes
+    from book_user
+    where book_id = #{bookId,jdbcType=VARCHAR}
+      and user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BookUserMap">
+    select book_id, user_id, lendtime, returntime, ifreturn, renewtimes
+    from book_user
+  </select>
+ 
+</mapper>

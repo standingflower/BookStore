@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.custom.i18n.resources" value="i18n" />
+
+	<package name="default" namespace="/" extends="json-default">
+		<interceptors>
+			<interceptor name="loginInterceptor" class="com.booksystem.interceptor.loginInterceptor"/>
+		</interceptors>
+		
+		<action name="book_*" class="bookAction" method="{1}">
+			<result name="showbook">/WEB-INF/pages/student/showbook.jsp</result>
+			<result name="bookdetails">/WEB-INF/pages/student/bookdetails.jsp</result>	
+			<result name="searchBook">/WEB-INF/pages/student/searchBook.jsp</result>
+			<result name="bookajax" type="json">
+				<param name="root">pageInfo</param>
+			</result>
+			<result name="success" type="stream">
+				<!-- 设置缓存大小 -->
+				<param name="bufferSize">2048</param>
+			</result>
+		</action>
+		
+		<action name="crud_*" class="bookCrud" method="{1}">
+			<result name="crud">/WEB-INF/pages/admin/manages.jsp</result>
+			<result name="input">/WEB-INF/pages/admin/manages.jsp</result>
+		</action>
+		
+		
+		
+		
+		<action name="user_*" class="userAction" method="{1}">
+			<!-- 
+				type:
+					redirect重定向到一个页面
+					redirectAction重定向到一个action
+					chain重定向到一个action，且数据不会丢失
+			 -->
+			<result name="userdetails" type="chain">
+				<param name="actionName">bookuser_selectRecordByUserId</param>
+				<param name="namespace">/</param>
+			</result>
+			<result name="admin">/WEB-INF/pages/admin/manages.jsp</result>
+			<result name="input">login.jsp</result>
+			
+			<result name="resjson" type="json">
+				<param name="includeProperties">res</param>
+			</result>
+		</action>
+		
+		<action name="bookuser_*" class="bookUserAction" method="{1}">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="loginInterceptor"/>
+			<result name="userdetails">/WEB-INF/pages/student/userdetails.jsp</result>
+			<result name="resjson" type="json">
+				<param name="excludeProperties">bookId,result,user,pageNo,pageNoStr</param>
+			</result>
+			<result name="resultJson" type="json">
+				<param name="includeProperties">resjson</param>			
+			</result>
+			<result name="manage">/WEB-INF/pages/admin/manages.jsp</result>
+			<result name="input">login.jsp</result>
+		
+		</action>
+	</package>
+</struts>

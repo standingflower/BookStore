@@ -1,0 +1,55 @@
+<!DOCTYPE validators PUBLIC
+        "-//Apache Struts//XWork Validator 1.0.2//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+	<field name="book.bookId">
+		<field-validator type="requiredstring" short-circuit="true">
+			<message key="error.bookId.required"></message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">5</param>
+			<!--trim去空格 -->
+			<param name="trim">true</param>
+			<message key="error.bookId.length"></message>
+		</field-validator>
+	</field>
+
+	<field name="book.bookName">
+		<field-validator type="requiredstring" short-circuit="true">
+			<message key="error.bookName.required"></message>
+		</field-validator>
+	</field>
+
+	<field name="book.bookIsbn">
+		<field-validator type="requiredstring" short-circuit="true">
+			<message key="error.ISBN.required"></message>
+		</field-validator>
+		<field-validator type="isbnValidator">
+			<message key="error.ISBN"></message>
+		</field-validator>
+	</field>
+	
+	<field name="book.bookPrice">
+		<field-validator type="double">
+			<message key="error.bookPrice.type"></message>
+		</field-validator>
+	</field>
+
+
+
+	<field name="book.bookStore">
+		<field-validator type="required" short-circuit="true">
+			<message key="error.bookStore.required"></message>
+		</field-validator>
+
+		<field-validator type="int">
+			<message key="error.bookPrice.type"></message>
+		</field-validator>
+	</field>
+
+
+
+
+</validators>
+

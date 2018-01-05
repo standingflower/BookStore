@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.booksystem.mybatis.mapper.BookMapper">
+  <resultMap id="BookMap" type="com.booksystem.mybatis.entities.Book">
+    <id column="book_id" jdbcType="VARCHAR" property="bookId" />
+    <result column="book_name" jdbcType="VARCHAR" property="bookName" />
+    <result column="book_author" jdbcType="VARCHAR" property="bookAuthor" />
+    <result column="book_publih" jdbcType="VARCHAR" property="bookPublih" />
+    <result column="book_isbn" jdbcType="VARCHAR" property="bookIsbn" />
+    <result column="book_brief" jdbcType="VARCHAR" property="bookBrief" />
+    <result column="book_price" jdbcType="DOUBLE" property="bookPrice" />
+    <result column="book_store" jdbcType="INTEGER" property="bookStore" />
+    <result column="book_lend" jdbcType="INTEGER" property="bookLend" />
+    <result column="book_lose" jdbcType="INTEGER" property="bookLose" />
+    <result column="book_picture" jdbcType="VARCHAR" property="bookPicture" />
+    <result column="book_style" jdbcType="VARCHAR" property="bookStyle" />
+    <result column="book_lendtimes" jdbcType="INTEGER" property="bookLendtimes" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from book
+    where book_id = #{bookId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.booksystem.mybatis.entities.Book">
+    insert into book (book_id, book_name, book_author, 
+      book_publih, book_isbn, book_brief, 
+      book_price, book_store, book_lend, 
+      book_lose, book_picture, book_style, 
+      book_lendtimes)
+    values (#{bookId,jdbcType=VARCHAR}, #{bookName,jdbcType=VARCHAR}, #{bookAuthor,jdbcType=VARCHAR}, 
+      #{bookPublih,jdbcType=VARCHAR}, #{bookIsbn,jdbcType=VARCHAR}, #{bookBrief,jdbcType=VARCHAR}, 
+      #{bookPrice,jdbcType=DOUBLE}, #{bookStore,jdbcType=INTEGER}, #{bookLend,jdbcType=INTEGER}, 
+      #{bookLose,jdbcType=INTEGER}, #{bookPicture,jdbcType=VARCHAR}, #{bookStyle,jdbcType=VARCHAR}, 
+      #{bookLendtimes,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.booksystem.mybatis.entities.Book">
+    update book
+    set book_name = #{bookName,jdbcType=VARCHAR},
+      book_author = #{bookAuthor,jdbcType=VARCHAR},
+      book_publih = #{bookPublih,jdbcType=VARCHAR},
+      book_isbn = #{bookIsbn,jdbcType=VARCHAR},
+      book_brief = #{bookBrief,jdbcType=VARCHAR},
+      book_price = #{bookPrice,jdbcType=DOUBLE},
+      book_store = #{bookStore,jdbcType=INTEGER},
+      book_lend = #{bookLend,jdbcType=INTEGER},
+      book_lose = #{bookLose,jdbcType=INTEGER},
+      book_picture = #{bookPicture,jdbcType=VARCHAR},
+      book_style = #{bookStyle,jdbcType=VARCHAR},
+      book_lendtimes = #{bookLendtimes,jdbcType=INTEGER}
+    where book_id = #{bookId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BookMap">
+    select book_id, book_name, book_author, book_publih, book_isbn, book_brief, book_price, 
+    book_store, book_lend, book_lose, book_picture, book_style, book_lendtimes
+    from book
+    where book_id = #{bookId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllByOrder" resultMap="BookMap">
+    select book_id, book_name, book_author, book_publih, book_isbn, book_brief, book_price, 
+    book_store, book_lend, book_lose, book_picture, book_style, book_lendtimes
+    from book
+  	order by ${order}
+  	DESC
+  </select>
+  
+  <select id="selectByBookTypes" resultMap="BookMap">
+    select book_id, book_name, book_author, book_publih, book_isbn, book_brief, book_price, 
+    book_store, book_lend, book_lose, book_picture, book_style, book_lendtimes
+    from book
+    where ${type}=#{value}
+  	order by book_lendtimes
+  	DESC
+  </select>
+  
+  <select id="selectBookBySearch" resultMap="BookMap">
+    select book_id, book_name, book_author, book_publih, book_isbn, book_brief, book_price, 
+    book_store, book_lend, book_lose, book_picture, book_style, book_lendtimes
+    from book
+    where ${type} like '%${value}%'
+  	order by book_lendtimes
+  	DESC
+  </select>
+  
+ 
+  
+  
+</mapper>

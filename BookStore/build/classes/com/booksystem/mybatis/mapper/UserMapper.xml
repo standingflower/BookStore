@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.booksystem.mybatis.mapper.UserMapper">
+  <resultMap id="UserMap" type="com.booksystem.mybatis.entities.User">
+    <id column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="iflend" jdbcType="INTEGER" property="iflend" />
+    <result column="user_role" jdbcType="INTEGER" property="userRole" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.booksystem.mybatis.entities.User">
+    insert into user (user_id, user_name, password, 
+      iflend, user_role)
+    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{iflend,jdbcType=INTEGER}, #{userRole,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.booksystem.mybatis.entities.User">
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      iflend = #{iflend,jdbcType=INTEGER},
+      user_role = #{userRole,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="UserMap">
+    select user_id, user_name, password, iflend, user_role
+    from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="UserMap">
+    select user_id, user_name, password, iflend, user_role
+    from user
+  </select>
+  
+</mapper>
