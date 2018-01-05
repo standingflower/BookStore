@@ -9,5 +9,9 @@
 </head>
 <body>
 	<s:action name="book_findbook" namespace="/" executeResult="true"/>
+	
+	
+	
+	
 </body>
 </html>
